@@ -17,11 +17,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import retrofit2.Call;
-import retrofit2.Response;
+
 import retrofit2.Retrofit;
 
 import static com.example.goal_tracker.LogIn.getRetro;
-import static com.example.goal_tracker.LogIn.switchToActivity;
+
 
 public class AddTask extends AppCompatActivity {
     EditText taskDes = findViewById(R.id.taskDescription);
@@ -67,12 +67,12 @@ public class AddTask extends AppCompatActivity {
                 if(change) {
                     addTask(underGoal);
                 }else{
-                    changeTask(underGoal);
+                    changeTask();
                 }
                 if(underGoal){
                     switchToListActivity();
                 }else{
-                    
+                    switchToGoalActivity();
                 }
             }
         });
@@ -95,7 +95,7 @@ public class AddTask extends AppCompatActivity {
 
         Task newTask = new Task();
         newTask.setDeadline(taskDes.getText().toString());
-        Calendar cal = Calendar.getInstance();
+        Calendar.getInstance();
         String deadline = dayInput.getText().toString()+"-"+ monthInput.getText().toString()+"-"+
         yearInput.getText().toString();
         newTask.setDeadline(deadline);
@@ -105,7 +105,7 @@ public class AddTask extends AppCompatActivity {
                     intent.getExtras().getInt("goalID"),
                     newTask);
             try {
-                Response<ID> retval = call.execute();
+                call.execute();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -114,42 +114,28 @@ public class AddTask extends AppCompatActivity {
             Call<ID> call = api.postTask(intent.getExtras().getInt("userID"),
                     newTask);
             try {
-                Response<ID> retval=call.execute();
+                call.execute();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-    protected void changeTask(boolean underGoal){
+    protected void changeTask(){
         RestApi api = retroSetup();
-        Intent intent = getIntent();
 
         Task newTask = new Task();
         newTask.setDeadline(taskDes.getText().toString());
-        Calendar cal = Calendar.getInstance();
         String deadline = dayInput.getText().toString()+"-"+ monthInput.getText().toString()+"-"+
                 yearInput.getText().toString();
         newTask.setDeadline(deadline);
         newTask.setDone(false);
-        if(underGoal) {
-            Call<ID> call = api.putTask(intent.getExtras().getInt("userID"),
-                    intent.getExtras().getInt("goalID"),
-                    newTask);
+        Call<ID> call = api.putTask(taskID,newTask);
             try {
-                Response<ID> retval = call.execute();
+                call.execute();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-        }else{
-            Call<ID> call = api.postTask(intent.getExtras().getInt("userID"),
-                    newTask);
-            try {
-                Response<ID> retval=call.execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
     protected RestApi retroSetup(){
         Retrofit retrofit = getRetro();
