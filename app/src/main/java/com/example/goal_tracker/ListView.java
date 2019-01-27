@@ -15,6 +15,7 @@ import com.example.goal_tracker.RestAPI.User;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,7 +27,7 @@ import retrofit2.http.GET;
 public class ListView extends AppCompatActivity {
     private static final String URL = "";
     public int userID;
-    public List goals; 
+    public List<Integer> goals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +48,25 @@ public class ListView extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        final ListAdapter goal_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goals);
+
+        List <String> actualGoals = new ArrayList();
+        for( int i = 0 ; i < goals.size(); i ++ ) {
+            Call<Goal> getGoals = api.getGoals(goals.get(i));
+            try {
+                Response<Goal> retval = getGoals.execute();
+                actualGoals.set(i, retval.body().getGoal());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        final ListAdapter goal_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, actualGoals);
         android.widget.ListView tut_Adaptor_View = (android.widget.ListView) findViewById(R.id.tut_adaptor);
         tut_Adaptor_View.setAdapter(goal_adpt);
 
         tut_Adaptor_View.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                goals.get(i);
+                int g = goals.get(i);
             }
         });
     }
