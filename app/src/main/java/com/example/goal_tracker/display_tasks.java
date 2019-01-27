@@ -28,7 +28,7 @@ public class display_tasks extends AppCompatActivity {
     public int userId;
     public Goal goal;
     private static final String URL = "";
-    private ArrayList<Task> taskListObj;
+    private ArrayList<String> taskListObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class display_tasks extends AppCompatActivity {
             Call<Task> ithTask = api.getTasks(goal.getTasks().get(i));
             try {
                 Response<Task> retval = ithTask.execute();
-                Task taskobj = retval.body();
+                String taskobj = retval.body().getTask();
                 taskListObj.add(taskobj);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -80,5 +80,5 @@ public class display_tasks extends AppCompatActivity {
         return retrofit.create(RestApi.class);
     }
 
-    
+
 }

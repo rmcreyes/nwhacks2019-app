@@ -11,6 +11,7 @@ import android.widget.ListAdapter;
 import com.example.goal_tracker.RestAPI.Goal;
 import com.example.goal_tracker.RestAPI.ID;
 import com.example.goal_tracker.RestAPI.RestApi;
+import com.example.goal_tracker.RestAPI.Task;
 import com.example.goal_tracker.RestAPI.User;
 
 import java.io.IOException;
@@ -29,6 +30,8 @@ import static com.example.goal_tracker.LogIn.getRetro;
 public class ListView extends AppCompatActivity {
     public int userID;
     public List<Integer> goals;
+    public List <Integer> tasks;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,39 +48,57 @@ public class ListView extends AppCompatActivity {
         try {
             Response<User> retval = call2.execute();
             goals = retval.body().getGoals();
+            tasks = retval.body().getTasks();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
-        List <String> actualGoals = new ArrayList<String>();
-        for( int i = 0 ; i < goals.size(); i ++ ) {
-            Call<Goal> getGoals = api.getGoals(goals.get(i));
+        List <String> toBePrinted = new ArrayList<String>();
+        for( int i = 0 ; i < tasks.size(); i ++ ) {
+            Call<Task> getTasks = api.getTasks(tasks.get(i));
             try {
-                Response<Goal> retval = getGoals.execute();
-                actualGoals.set(i, retval.body().getGoal());
+                Response<Task> retval = getTasks.execute();
+                toBePrinted.set(i, retval.body().getTask());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        final ListAdapter goal_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, actualGoals);
+
+        for( int k = toBePrinted.size() ; k < (goals.size() + toBePrinted.size()); k ++ ) {
+            Call<Goal> getGoals = api.getGoals(goals.get(k));
+            try {
+                Response<Goal> retval = getGoals.execute();
+                toBePrinted.set(k, retval.body().getGoal());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        printTasks(toBePrinted);
+    }
+
+    private void printTasks(List<String> printMe) {
+        final ListAdapter goal_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, printMe);
         android.widget.ListView tut_Adaptor_View = (android.widget.ListView) findViewById(R.id.tut_adaptor);
         tut_Adaptor_View.setAdapter(goal_adpt);
 
         tut_Adaptor_View.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                int g = goals.get(i);
+                int g = goals.get(i-tasks.size());
                 gotoLists(view, g, userID);
             }
         });
-    }
+
+    };
 
 
     protected RestApi retroSetup(){
         Retrofit retrofit = getRetro();
         return retrofit.create(RestApi.class);
     }
+
 
 
 
