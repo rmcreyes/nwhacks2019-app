@@ -8,7 +8,7 @@ import retrofit2.http.Path;
 
 public interface RestApi {
 
-    @GET("user/{userID}")
+    @GET("user/id/{userID}")
     Call<User> getUser(@Path("userID") int userID);
 
     @GET("user/{user{ID}/ical")
@@ -29,10 +29,10 @@ public interface RestApi {
     @POST("user/{userID}/goals/{goalID}/task")
     Call<ID> postGoalTask(@Path("userID") int userID, @Path("goalID") int goalID, @Body Task task );
 
-    @POST("user/{userID}/goal")
+    @POST("user/goal/{userID}")
     Call<ID> postGoal(@Path("userID") int userID, @Body GoalChange goal);
 
-    @POST("user/{userID}/task")
+    @POST("user/task/{userID}")
     Call<ID> postTask(@Path("userID") int userID, @Body Task task);
 
     @POST("user/{user{ID}/ical")

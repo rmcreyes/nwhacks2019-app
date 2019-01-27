@@ -1,7 +1,15 @@
 package com.example.goal_tracker;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.samsung.android.sdk.healthdata.HealthConnectionErrorResult;
@@ -22,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.work.*;
 
+import static android.provider.Settings.Global.getString;
 import static com.example.goal_tracker.LogIn.APP_TAG;
 
 public class CheckWorker extends Worker {
@@ -40,7 +49,7 @@ public class CheckWorker extends Worker {
         // Do the work here--in this case, compress the stored images.
         // In this example no parameters are passed; the task is
         // assumed to be "compress the whole library."
-
+        readRate();
 
         // Indicate success or failure with your return value:
         return Result.success();
@@ -48,6 +57,7 @@ public class CheckWorker extends Worker {
         // (Returning Result.retry() tells WorkManager to try this task again
         // later; Result.failure() says not to try again.)
     }
+
 
 
     // Read the today's step count on demand
@@ -101,10 +111,26 @@ public class CheckWorker extends Worker {
         } finally {
             result.close();
         }
-        int avg = total/count;
-        if(avg>100||avg<50){
 
+
+        int avg = total/count;
+        if(avg>90||avg<50){
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "1")
+                    .setSmallIcon(R.drawable.common_google_signin_btn_text_light_normal)
+                    .setContentTitle("Focus")
+                    .setContentText("Seems like you aren't studying")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+            PendingIntent pIntent= PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), 0);
+            mBuilder.setContentIntent(pIntent);
+            NotificationManager mNotificationManager = (NotificationManager)
+                    getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            Notification notif = mBuilder.build();
+            notif.flags |= Notification.FLAG_ONGOING_EVENT;
+            mNotificationManager.notify(1,notif);
         }
 
     };
+
+
 }
