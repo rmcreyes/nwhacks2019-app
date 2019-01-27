@@ -38,11 +38,11 @@ public class ListView extends AppCompatActivity {
     public int userID;
     public List<Integer> goals;
     public List<Integer> tasks;
-    Switch studySwitch = findViewById(R.id.study);
+    Switch studySwitch;
     boolean study;
-    public SharedPreferences mpref = getSharedPreferences("study",0);
-    Button addTask = findViewById(R.id.addTaskButton);
-    Button addGoal= findViewById(R.id.addGoalsButton);
+    SharedPreferences mpref ;
+    Button addTask ;
+    Button addGoal;
 
 
 
@@ -50,7 +50,12 @@ public class ListView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
+
+        studySwitch = findViewById(R.id.study);
+        mpref = getSharedPreferences("study",0);
         WorkManager.getInstance().cancelAllWork();
+        addTask = findViewById(R.id.addTaskButton);
+        addGoal= findViewById(R.id.addGoalsButton);
         startChecking();
 
         Bundle extras = getIntent().getExtras();
@@ -94,23 +99,27 @@ public class ListView extends AppCompatActivity {
         });
 
         List <String> toBePrinted = new ArrayList<String>();
-        for( int i = 0 ; i < tasks.size(); i ++ ) {
-            Call<Task> getTasks = api.getTasks(tasks.get(i));
-            try {
-                Response<Task> retval = getTasks.execute();
-                toBePrinted.set(i, retval.body().getTask());
-            } catch (IOException e) {
-                e.printStackTrace();
+        if(tasks!=null) {
+            for (int i = 0; i < tasks.size(); i++) {
+                Call<Task> getTasks = api.getTasks(tasks.get(i));
+                try {
+                    Response<Task> retval = getTasks.execute();
+                    toBePrinted.set(i, retval.body().getTask());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-
-        for( int k = toBePrinted.size() ; k < (goals.size() + toBePrinted.size()); k ++ ) {
-            Call<Goal> getGoals = api.getGoals(goals.get(k));
-            try {
-                Response<Goal> retval = getGoals.execute();
-                toBePrinted.set(k, retval.body().getGoal());
-            } catch (IOException e) {
-                e.printStackTrace();
+        int temp = toBePrinted.size();
+        if(goals!=null) {
+            for (int k = temp; k < (goals.size() + temp); k++) {
+                Call<Goal> getGoals = api.getGoals(goals.get(k));
+                try {
+                    Response<Goal> retval = getGoals.execute();
+                    toBePrinted.add(k, retval.body().getGoal());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -145,18 +154,15 @@ public class ListView extends AppCompatActivity {
     }
 
     private void printTasks(List<String> printMe) {
-        List<String> mockList = new ArrayList<>();
-        mockList.add("test1");
-        mockList.add("test2");
-        final ListAdapter goal_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mockList);
-        android.widget.ListView tut_Adaptor_View = (android.widget.ListView) findViewById(R.id.tut_adaptor);
+        final ListAdapter goal_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, printMe);
+        android.widget.ListView tut_Adaptor_View = findViewById(R.id.tut_adaptor);
         tut_Adaptor_View.setAdapter(goal_adpt);
 
         tut_Adaptor_View.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                int g = goals.get(i-tasks.size());
-                gotoLists(view, g, userID);
+                int g = goals.get(i);
+                gotoLists(g, userID);
             }
         });
 
@@ -172,10 +178,10 @@ public class ListView extends AppCompatActivity {
 
 
 
-    private void gotoLists (View view, int goal , int user) {
+    private void gotoLists ( int goal , int user) {
         Intent gotoTasks = new Intent(this, display_tasks.class);
-        getIntent().putExtra("goalID", goal);
-        getIntent().putExtra("userID", user);
+        gotoTasks.putExtra("goalID", goal);
+        gotoTasks.putExtra("userID", user);
         startActivity(gotoTasks);
 
     }

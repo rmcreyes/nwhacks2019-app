@@ -20,12 +20,14 @@ import static com.example.goal_tracker.LogIn.getRetro;
 
 public class AddIcal extends AppCompatActivity {
     int userID;
-    Button save = findViewById(R.id.saveIcal);
-    EditText link = findViewById(R.id.icalInput);
+    Button save;
+    EditText link;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_ical);
+        save = findViewById(R.id.saveIcal);
+        link = findViewById(R.id.icalInput);
         Intent intent = getIntent();
         userID = intent.getIntExtra("userID",-1);
         save.setOnClickListener(new View.OnClickListener() {

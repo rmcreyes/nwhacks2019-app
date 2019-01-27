@@ -21,9 +21,8 @@ import retrofit2.Retrofit;
 import static com.example.goal_tracker.LogIn.getRetro;
 
 public class AddGoal extends AppCompatActivity {
-    EditText destButton = findViewById(R.id.destGoal);
-    Switch done = findViewById(R.id.doneGoal);
-    Button save = findViewById(R.id.saveGoal);
+    EditText destButton ;
+    Button save ;
     int userID;
     int goalID;
     boolean change;
@@ -31,6 +30,8 @@ public class AddGoal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_goal);
+        destButton = findViewById(R.id.destGoal);
+        save = findViewById(R.id.saveGoal);
         Intent intent = getIntent();
         change=intent.getBooleanExtra("change",false);
         userID=intent.getIntExtra("userID",-1);
@@ -59,24 +60,23 @@ public class AddGoal extends AppCompatActivity {
     }
     protected void changeGoal() {
         GoalChange newGoal = new GoalChange();
-        newGoal.setDone(done.getShowText());
         newGoal.setGoal(destButton.getText().toString());
         RestApi api = retroSetup();
         Call<ID> call = api.putGoal(goalID,newGoal);
         try {
-            call.execute();
+            goalID = call.execute().body().getID();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     protected void addGoal(){
         GoalChange newGoal = new GoalChange();
-        newGoal.setDone(done.getShowText());
         newGoal.setGoal(destButton.getText().toString());
         RestApi api = retroSetup();
         Call<ID> call = api.postGoal(userID,newGoal);
         try {
             Response<ID> retval= call.execute();
+            goalID = retval.body().getID();
 
         } catch (IOException e) {
             e.printStackTrace();
