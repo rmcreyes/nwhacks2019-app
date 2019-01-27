@@ -11,6 +11,9 @@ public interface RestApi {
     @GET("user/{userID}")
     Call<User> getUser(@Path("userID") int userID);
 
+    @GET("user/{user{ID}/ical")
+    Call<Ical> getIcal(@Path("userID") int userID);
+
     @GET("tasks/{taskID}")
     Call<Task> getTasks(@Path("taskID") int taskID);
 
@@ -31,6 +34,9 @@ public interface RestApi {
 
     @POST("user/{userID}/task")
     Call<ID> postTask(@Path("userID") int userID, @Body Task task);
+
+    @POST("user/{user{ID}/ical")
+    Call<ID> postIcal(@Path("userID") int userID, @Body Ical ical);
 
     @PUT("tasks/taskID")
     Call<ID> putTask(@Path("userID") int userID, @Body Task task);
