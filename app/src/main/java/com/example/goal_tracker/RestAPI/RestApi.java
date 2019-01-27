@@ -26,7 +26,7 @@ public interface RestApi {
     @POST("user/{username}")
     Call<ID> postUser(@Path("username") String username);
 
-    @POST("user/{userID}/goals/{goalID}")
+    @POST("user/{userID}/goals/{goalID}/task")
     Call<ID> postGoalTask(@Path("userID") int userID, @Path("goalID") int goalID, @Body Task task );
 
     @POST("user/{userID}/goal")

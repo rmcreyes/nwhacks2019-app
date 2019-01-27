@@ -3,6 +3,7 @@ package com.example.goal_tracker;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -33,17 +34,28 @@ public class AddGoal extends AppCompatActivity {
         Intent intent = getIntent();
         change=intent.getBooleanExtra("change",false);
         userID=intent.getIntExtra("userID",-1);
-
-        if(change){
+        if(change)
             goalID= intent.getIntExtra("goalID",-1);
-            changeGoal();
-        }else{
-            addGoal();
-        }
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(change){
+                    changeGoal();
+                }else{
+                    addGoal();
+                }
+                changeTo();
+            }
+        });
+
+
+
+    }
+    protected  void changeTo(){
         Intent next = new Intent(this,display_tasks.class);
-        next.putExtra("goalID")
-
-
+        next.putExtra("goalID",goalID);
+        next.putExtra("userID",userID);
+        startActivity(next);
     }
     protected void changeGoal() {
         GoalChange newGoal = new GoalChange();

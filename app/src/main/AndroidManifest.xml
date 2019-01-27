@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ListView" />
-        <activity android:name=".AddGoal"></activity>
+        <activity android:name=".AddGoal" />
+        <activity android:name=".AddIcal"></activity>
     </application>
 
 </manifest>
