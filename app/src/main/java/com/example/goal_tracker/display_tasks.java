@@ -34,17 +34,17 @@ public class display_tasks extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_tasks);
-        Bundle extras = getIntent().getExtras();
+        /*Bundle extras = getIntent().getExtras();
         if (extras != null) {
             goalId = extras.getInt("goalID");
             userId = extras.getInt("userID");
             //The key argument here must match that used in the other activity
         }
 
-        displayTasks(goalId);
+        displayTasks(goalId);*/
     }
 
-    public void displayTasks(int goalId){
+    public void displayTasks(int goalId){ /*
         final RestApi api = retroSetup();
         //get tasks with goal-id
         Call<Goal> callGoalObj = api.getGoals(goalId);
@@ -68,7 +68,17 @@ public class display_tasks extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-        }
+        } */
+
+        taskListObj.add("a");
+        taskListObj.add("a");
+        taskListObj.add("a");
+        taskListObj.add("a");
+        taskListObj.add("a");
+        taskListObj.add("a");
+        taskListObj.add("a");
+        taskListObj.add("a");
+
         final ListAdapter task_adaptor = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, taskListObj);
         android.widget.ListView tut_Adaptor_View = (android.widget.ListView) findViewById(R.id.task_list);
         tut_Adaptor_View.setAdapter(task_adaptor);
