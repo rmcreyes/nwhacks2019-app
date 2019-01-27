@@ -145,7 +145,10 @@ public class ListView extends AppCompatActivity {
     }
 
     private void printTasks(List<String> printMe) {
-        final ListAdapter goal_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, printMe);
+        List<String> mockList = new ArrayList<>();
+        mockList.add("test1");
+        mockList.add("test2");
+        final ListAdapter goal_adpt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mockList);
         android.widget.ListView tut_Adaptor_View = (android.widget.ListView) findViewById(R.id.tut_adaptor);
         tut_Adaptor_View.setAdapter(goal_adpt);
 
