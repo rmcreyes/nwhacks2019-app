@@ -36,7 +36,7 @@ public class ListView extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int userID = extras.getInt("userID");
+            userID = extras.getInt("userID");
         }
         final RestApi api = retroSetup();
 
@@ -67,6 +67,7 @@ public class ListView extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 int g = goals.get(i);
+                gotoLists(view, g, userID);
             }
         });
     }
@@ -87,8 +88,8 @@ public class ListView extends AppCompatActivity {
 
     private void gotoLists (View view, int goal , int user) {
         Intent gotoTasks = new Intent(this, display_tasks.class);
-        getIntent().putExtra("goal", goal);
-        getIntent().putExtra("user-id", user);
+        getIntent().putExtra("goalID", goal);
+        getIntent().putExtra("userID", user);
         startActivity(gotoTasks);
 
     }
