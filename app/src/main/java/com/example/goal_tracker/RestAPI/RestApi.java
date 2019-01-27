@@ -39,7 +39,7 @@ public interface RestApi {
     Call<ID> postIcal(@Path("userID") int userID, @Body Ical ical);
 
     @PUT("tasks/taskID")
-    Call<ID> putTask(@Path("userID") int userID, @Body Task task);
+    Call<ID> putTask(@Path("taskID") int taskID, @Body Task task);
 
     @PUT("goals/goalID")
     Call<ID> putGoal(@Path("goalID") int goalID, @Body GoalChange goal);

@@ -25,12 +25,14 @@ import static com.example.goal_tracker.LogIn.getRetro;
 
 
 public class AddTask extends AppCompatActivity {
-    EditText taskDes = findViewById(R.id.taskDescription);
-    EditText dayInput = (EditText)findViewById(R.id.day);
-    EditText monthInput = (EditText)findViewById(R.id.month);
-    EditText yearInput = (EditText)findViewById(R.id.year);
-    Button submitButton= findViewById(R.id.saveButton);
-    Switch done = findViewById(R.id.doneTask);
+
+
+    EditText taskDes;
+    EditText dayInput;
+    EditText monthInput;
+    EditText yearInput ;
+    Button submitButton;
+    Switch done;
     int userID;
     int goalID;
     int taskID;
@@ -41,10 +43,20 @@ public class AddTask extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+        taskDes = findViewById(R.id.taskDescription);
+         dayInput = (EditText)findViewById(R.id.day);
+        monthInput = (EditText)findViewById(R.id.month);
+        yearInput = (EditText)findViewById(R.id.year);
+        submitButton= findViewById(R.id.saveButton);
+        done = findViewById(R.id.doneTask);
         Intent intent = getIntent();
-        intent.getIntExtra("userID",-1);
-        intent.getIntExtra("taskID",-1);
-        intent.getBooleanExtra("change",false);
+        if(intent != null) {
+            intent.getIntExtra("userID", -1);
+            intent.getBooleanExtra("change", false);
+            if(change){
+                intent.getIntExtra("taskID", -1);
+            }
+        }
         if(change) {
             taskDes.setText(intent.getExtras().getString("Description"));
             SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd");
