@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "586310758039",
+    "firebase_url": "https://goals-3e49b.firebaseio.com",
+    "project_id": "goals-3e49b",
+    "storage_bucket": "goals-3e49b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586310758039:android:ca9331894ca37b20",
+        "android_client_info": {
+          "package_name": "com.example.goal_tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586310758039-sm89c5cn93m1p117h5rt8c0go8h7s7k8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAASiP2K3Jsox_dts5ZjkByACrD0-5fINE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

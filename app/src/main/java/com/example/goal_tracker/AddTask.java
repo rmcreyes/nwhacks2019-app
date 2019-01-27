@@ -44,6 +44,7 @@ public class AddTask extends AppCompatActivity {
         Intent intent = getIntent();
         intent.getIntExtra("userID",-1);
         intent.getIntExtra("taskID",-1);
+        intent.getBooleanExtra("change",false);
         if(change) {
             taskDes.setText(intent.getExtras().getString("Description"));
             SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd");

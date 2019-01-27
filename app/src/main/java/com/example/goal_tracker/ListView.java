@@ -1,12 +1,16 @@
 package com.example.goal_tracker;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListAdapter;
+import android.widget.Switch;
 
 import com.example.goal_tracker.RestAPI.Goal;
 import com.example.goal_tracker.RestAPI.ID;
@@ -18,7 +22,10 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -30,13 +37,21 @@ import static com.example.goal_tracker.LogIn.getRetro;
 public class ListView extends AppCompatActivity {
     public int userID;
     public List<Integer> goals;
-    public List <Integer> tasks;
+    public List<Integer> tasks;
+    Switch studySwitch = findViewById(R.id.study);
+    boolean study;
+    public SharedPreferences mpref = getSharedPreferences("study",0);
+    Button addTask = findViewById(R.id.addTaskButton);
+    Button addGoal= findViewById(R.id.addGoalsButton);
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
+        WorkManager.getInstance().cancelAllWork();
+        startChecking();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -53,6 +68,30 @@ public class ListView extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        study = mpref.getBoolean("study",true);
+        if(study){
+            studySwitch.setChecked(true);
+            studySwitch.setText("Study");
+        }else{
+            studySwitch.setChecked(false);
+            studySwitch.setText("Exercise");
+        }
+        studySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                study=studySwitch.getShowText();
+                if(study){
+                    studySwitch.setText("Study");
+                    WorkManager.getInstance().cancelAllWork();
+                    startChecking();
+                }else{
+                    studySwitch.setText("Exercise");
+                    WorkManager.getInstance().cancelAllWork();
+                    startCheckingNonStudy();
+                }
+                mpref.edit().putBoolean("study",study);
+            }
+        });
 
         List <String> toBePrinted = new ArrayList<String>();
         for( int i = 0 ; i < tasks.size(); i ++ ) {
@@ -76,6 +115,33 @@ public class ListView extends AppCompatActivity {
         }
 
         printTasks(toBePrinted);
+        addTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeToAddTask();
+            }
+        });
+        addGoal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeToAddGoal();
+            }
+        });
+    }
+
+    private void changeToAddTask(){
+        Intent next = new Intent(this, AddTask.class);
+        next.putExtra("userID", userID);
+        next.putExtra("change",false);
+        next.putExtra("goal",false);
+        startActivity(next);
+    }
+
+    private void changeToAddGoal(){
+        Intent next = new Intent(this, AddGoal.class);
+        next.putExtra("userID", userID);
+        next.putExtra("change",false);
+        startActivity(next);
     }
 
     private void printTasks(List<String> printMe) {
@@ -110,4 +176,20 @@ public class ListView extends AppCompatActivity {
         startActivity(gotoTasks);
 
     }
+
+    protected void startChecking(){
+        PeriodicWorkRequest.Builder checkBuilder =
+                new PeriodicWorkRequest.Builder(CheckWorker.class,
+                        5, TimeUnit.MINUTES);
+        PeriodicWorkRequest checkWork = checkBuilder.build();
+        WorkManager.getInstance().enqueue(checkWork);
+    }
+    protected void startCheckingNonStudy(){
+        PeriodicWorkRequest.Builder checkBuilder =
+                new PeriodicWorkRequest.Builder(CheckNonStudyWorker.class,
+                        5, TimeUnit.MINUTES);
+        PeriodicWorkRequest checkWork = checkBuilder.build();
+        WorkManager.getInstance().enqueue(checkWork);
+    }
+
 }
