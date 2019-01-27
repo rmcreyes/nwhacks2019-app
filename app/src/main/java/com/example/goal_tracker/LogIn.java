@@ -1,6 +1,7 @@
 package com.example.goal_tracker;
 
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,18 +23,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LogIn extends AppCompatActivity {
 
-    private static final String URL = "";
+    private static final String URL = "http://13.64.93.250:8080/";
     private int userID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Button loginButton = findViewById(R.id.loginButton);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 login();
-                switchToActivity(ListView.class);
+                switchToActivity(com.example.goal_tracker.ListView.class);
             }
         });
     }

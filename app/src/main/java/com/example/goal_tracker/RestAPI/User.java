@@ -31,7 +31,7 @@ public class User{
         this.goals = goals;
     }
 
-    @SerializedName("goals")
+    @SerializedName("name")
     @Expose
     private String name;
 

@@ -8,34 +8,34 @@ import retrofit2.http.Path;
 
 public interface RestApi {
 
-    @GET("/user/{userID}")
+    @GET("user/{userID}")
     Call<User> getUser(@Path("userID") int userID);
 
-    @GET("/tasks/{taskID}")
+    @GET("tasks/{taskID}")
     Call<Task> getTasks(@Path("taskID") int taskID);
 
-    @GET("/goals/{goalID}")
+    @GET("goals/{goalID}")
     Call<Goal> getGoals(@Path("goalID") int goalID);
 
-    @GET("/user/{username}")
+    @GET("user/{username}")
     Call<ID> getUserID(@Path("username") String username);
 
-    @POST("/user/{username}")
+    @POST("user/{username}")
     Call<ID> postUser(@Path("username") String username);
 
-    @POST("/user/{userID}/goals/{goalID}")
+    @POST("user/{userID}/goals/{goalID}")
     Call<ID> postGoalTask(@Path("userID") int userID, @Path("goalID") int goalID, @Body Task task );
 
-    @POST("/user/{userID}/goal")
+    @POST("user/{userID}/goal")
     Call<ID> postGoal(@Path("userID") int userID, @Body GoalChange goal);
 
-    @POST("/user/{userID}/task")
+    @POST("user/{userID}/task")
     Call<ID> postTask(@Path("userID") int userID, @Body Task task);
 
-    @PUT("/tasks/taskID")
+    @PUT("tasks/taskID")
     Call<ID> putTask(@Path("userID") int userID, @Body Task task);
 
-    @PUT("/goals/goalID")
+    @PUT("goals/goalID")
     Call<ID> putGoal(@Path("goalID") int goalID, @Body GoalChange goal);
 
 }

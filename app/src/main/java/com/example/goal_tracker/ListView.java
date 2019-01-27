@@ -24,8 +24,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 
+import static com.example.goal_tracker.LogIn.getRetro;
+
 public class ListView extends AppCompatActivity {
-    private static final String URL = "";
     public int userID;
     public List<Integer> goals;
 
@@ -49,7 +50,7 @@ public class ListView extends AppCompatActivity {
         }
 
 
-        List <String> actualGoals = new ArrayList();
+        List <String> actualGoals = new ArrayList<String>();
         for( int i = 0 ; i < goals.size(); i ++ ) {
             Call<Goal> getGoals = api.getGoals(goals.get(i));
             try {
@@ -78,12 +79,7 @@ public class ListView extends AppCompatActivity {
         return retrofit.create(RestApi.class);
     }
 
-    protected static Retrofit getRetro(){
-        return new Retrofit.Builder().baseUrl(URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-    }
 
 
     private void gotoLists (View view, int goal , int user) {
