@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 
 import com.example.goal_tracker.RestAPI.ID;
 import com.example.goal_tracker.RestAPI.RestApi;
@@ -29,6 +30,7 @@ public class AddTask extends AppCompatActivity {
     EditText monthInput = (EditText)findViewById(R.id.month);
     EditText yearInput = (EditText)findViewById(R.id.year);
     Button submitButton= findViewById(R.id.saveButton);
+    Switch done = findViewById(R.id.doneTask);
     int userID;
     int goalID;
     int taskID;
@@ -99,7 +101,7 @@ public class AddTask extends AppCompatActivity {
         String deadline = dayInput.getText().toString()+"-"+ monthInput.getText().toString()+"-"+
         yearInput.getText().toString();
         newTask.setDeadline(deadline);
-        newTask.setDone(false);
+        newTask.setDone(done.getShowText());
         if(underGoal) {
             Call<ID> call = api.postGoalTask(intent.getExtras().getInt("userID"),
                     intent.getExtras().getInt("goalID"),

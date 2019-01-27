@@ -31,15 +31,4 @@ public class User{
         this.goals = goals;
     }
 
-    @SerializedName("name")
-    @Expose
-    private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
