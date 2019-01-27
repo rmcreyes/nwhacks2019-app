@@ -11,13 +11,20 @@
         android:theme="@style/AppTheme">
         <activity android:name=".display_tasks"></activity>
         <activity android:name=".LogIn">
+
+        </activity>
+        <activity android:name=".ListView" />
+        <activity android:name=".AddTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".ListView" />
+=======
+>>>>>>> b343ff33729cd5aa757a305e69e20893e1ea146a
     </application>
 
 </manifest>

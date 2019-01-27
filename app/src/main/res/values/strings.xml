@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">goal_tracker</string>
     <string name="userName">UserName</string>
+    <string name="loginButton">Login</string>
+    <string name="describleTask">Describe Your Task</string>
+    <string name="deadline">Deadline</string>
+    <string name="date">Date</string>
+    <string name="day">Day</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
 </resources>
