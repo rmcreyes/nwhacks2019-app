@@ -35,13 +35,13 @@ public interface RestApi {
     @POST("user/task/{userID}")
     Call<ID> postTask(@Path("userID") int userID, @Body Task task);
 
-    @POST("user/{user{ID}/ical")
+    @POST("user/{userID}/ical")
     Call<ID> postIcal(@Path("userID") int userID, @Body Ical ical);
 
-    @PUT("tasks/taskID")
+    @PUT("tasks/{taskID}")
     Call<ID> putTask(@Path("taskID") int taskID, @Body Task task);
 
-    @PUT("goals/goalID")
+    @PUT("goals/{goalID}")
     Call<ID> putGoal(@Path("goalID") int goalID, @Body GoalChange goal);
 
 }

@@ -80,14 +80,14 @@ public class AddTask extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(change) {
-                    addTask(underGoal);
-                }else{
                     changeTask();
+                }else{
+                    addTask(underGoal);
                 }
                 if(underGoal){
-                    switchToListActivity();
-                }else{
                     switchToGoalActivity();
+                }else{
+                    switchToListActivity();
                 }
             }
         });
