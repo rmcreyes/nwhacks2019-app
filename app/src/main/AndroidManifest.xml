@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".ListView" />
         <activity android:name=".AddGoal" />
+        <activity android:name=".AddTask" />
         <activity android:name=".AddIcal"></activity>
 
         <meta-data
