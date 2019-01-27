@@ -17,11 +17,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import retrofit2.Call;
-import retrofit2.Response;
+
 import retrofit2.Retrofit;
 
 import static com.example.goal_tracker.LogIn.getRetro;
-import static com.example.goal_tracker.LogIn.switchToActivity;
+
 
 public class AddTask extends AppCompatActivity {
     EditText taskDes = findViewById(R.id.taskDescription);
