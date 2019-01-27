@@ -1,13 +1,12 @@
-package com.example.goal_tracker;
+package com.example.goal_tracker.RestAPI;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-public interface restApi {
+public interface RestApi {
 
     @GET("/user/{userID}")
     Call<User> getUser(@Path("userID") int userID);

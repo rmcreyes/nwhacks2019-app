@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">goal_tracker</string>
+    <string name="userName">UserName</string>
 </resources>

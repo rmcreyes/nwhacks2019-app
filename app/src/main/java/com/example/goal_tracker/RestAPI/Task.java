@@ -1,4 +1,4 @@
-package com.example.goal_tracker;
+package com.example.goal_tracker.RestAPI;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
