@@ -33,5 +33,10 @@ public interface restApi {
     @POST("/user/{userID}/task")
     Call<ID> postTask(@Path("userID") int userID, @Body Task task);
 
-    
+    @PUT("/tasks/taskID")
+    Call<ID> putTask(@Path("userID") int userID, @Body Task task);
+
+    @PUT("/goals/goalID")
+    Call<ID> putGoal(@Path("goalID") int goalID, @Body GoalChange goal);
+
 }
