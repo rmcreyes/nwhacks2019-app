@@ -15,10 +15,8 @@ public class display_tasks extends AppCompatActivity {
         setContentView(R.layout.activity_display_tasks);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int goal-id = extras.getInt("goal");
-            int user-id = extras.getInt("user-id");
-            //get list of goals w/user id
-            //get list of tasks w/goal id
+            int goalId = extras.getInt("goalID");
+            int userId = extras.getInt("userID");
 
             receiveTasks(tasks);
             //The key argument here must match that used in the other activity
